@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply from: 'configurations.gradle'
+def config = project.extensions.getByName("ext")
+android {
+    compileSdkVersion config.targetSdk
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.example.spacex"
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation config.recyclerview.recycler
+    implementation config.googlematerial.material
+    implementation config.support.android_annotation
+
+    // Android support dependencies
+    implementation config.support.appcompat
+    implementation config.support.constraint
+
+    // Rx dependencies
+    implementation config.rxjava2.runtime
+    implementation config.rxjava2.rx_android
+
+    // Test dependencies
+    testImplementation config.tests.junit
+
+    // Android instrumentation test dependencies
+    androidTestImplementation config.tests.runner
+    androidTestImplementation config.tests.espresso
+
+    //live data and view model
+    implementation config.lifecycle_component.androidx_lifecycle
+    implementation config.lifecycle_component.annotaion
+
+    //Network
+    implementation config.network.retrofit
+    implementation config.network.converter_gson
+    implementation config.network.adapter_rxjava2
+
+    //image library
+    implementation config.imglibrary.glide
+    annotationProcessor config.imglibrary.compiler
+    implementation config.imglibrary.circularimage
+
+}
